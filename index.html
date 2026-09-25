@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura | Agencia de Imagen para Artistas</title>
+    
+    <!-- Fuentes de Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Configuración personalizada de Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: '#0a0a0a',
+                        darker: '#050505',
+                        card: '#141414',
+                        gold: '#D4AF37',
+                        'gold-light': '#F3E5AB',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 1s ease-out forwards',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        glow: {
+                            '0%': { boxShadow: '0 0 5px rgba(212, 175, 55, 0.2)' },
+                            '100%': { boxShadow: '0 0 20px rgba(212, 175, 55, 0.6)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #ffffff;
+        }
+        
+        .gold-text-gradient {
+            background: linear-gradient(to right, #D4AF37, #F3E5AB, #D4AF37);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% auto;
+            animation: shine 3s linear infinite;
+        }
+
+        @keyframes shine {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        .glass-nav {
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .service-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(212, 175, 55, 0.5);
+            box-shadow: 0 10px 30px -10px rgba(212, 175, 55, 0.2);
+        }
+
+        .bg-pattern {
+            background-image: radial-gradient(rgba(212, 175, 55, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        
+        /* Ocultar elementos antes de animarlos por scroll */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="antialiased overflow-x-hidden selection:bg-gold selection:text-dark">
+
+    <!-- Navegación -->
+    <nav class="fixed w-full z-50 glass-nav transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="#" class="font-serif text-3xl font-bold tracking-wider text-white">
+                        AU<span class="text-gold">R</span>A.
+                    </a>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#inicio" class="text-gray-300 hover:text-gold transition-colors text-sm uppercase tracking-widest font-medium">Inicio</a>
+                    <a href="#servicios" class="text-gray-300 hover:text-gold transition-colors text-sm uppercase tracking-widest font-medium">Servicios</a>
+                    <a href="#nosotros" class="text-gray-300 hover:text-gold transition-colors text-sm uppercase tracking-widest font-medium">Nosotros</a>
+                    <a href="#contacto" class="border border-gold text-gold hover:bg-gold hover:text-dark px-6 py-2 rounded-full transition-all duration-300 text-sm uppercase tracking-widest font-medium animate-glow">
+                        Contactar
+                    </a>
+                </div>
+                <!-- Menú Móvil -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-white hover:text-gold focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Menú desplegable móvil -->
+        <div id="mobile-menu" class="hidden md:hidden bg-darker border-b border-gray-800 pb-4 px-4">
+            <a href="#inicio" class="block py-3 text-gray-300 hover:text-gold transition-colors">Inicio</a>
+            <a href="#servicios" class="block py-3 text-gray-300 hover:text-gold transition-colors">Servicios</a>
+            <a href="#nosotros" class="block py-3 text-gray-300 hover:text-gold transition-colors">Nosotros</a>
+            <a href="#contacto" class="block py-3 text-gold font-medium">Contactar</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+        <!-- Elementos decorativos de fondo -->
+        <div class="absolute inset-0 z-0">
+            <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-gold rounded-full mix-blend-multiply filter blur-[128px] opacity-20"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-900 rounded-full mix-blend-multiply filter blur-[128px] opacity-20"></div>
+            <div class="absolute inset-0 bg-pattern opacity-30"></div>
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-gold font-medium tracking-[0.2em] uppercase mb-4 animate-fade-in-up" style="animation-delay: 0.2s;">
+                Agencia Digital y de Imagen
+            </p>
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-serif font-bold text-white mb-6 leading-tight animate-fade-in-up" style="animation-delay: 0.4s;">
+                Proyecta tu <br>
+                <span class="gold-text-gradient">Verdadera Esencia</span>
+            </h1>
+            <p class="mt-4 max-w-2xl mx-auto text-xl text-gray-400 mb-10 font-light animate-fade-in-up" style="animation-delay: 0.6s;">
+                Asesoría de imagen, gestión de redes sociales y portafolios web diseñados exclusivamente para elevar la marca personal de artistas.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4 animate-fade-in-up" style="animation-delay: 0.8s;">
+                <a href="#servicios" class="bg-gold text-dark px-8 py-4 rounded-full font-medium tracking-wide hover:bg-gold-light hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all duration-300">
+                    Descubrir Servicios
+                </a>
+                <a href="#contacto" class="border border-white text-white px-8 py-4 rounded-full font-medium tracking-wide hover:bg-white hover:text-dark transition-all duration-300">
+                    Agendar Sesión
+                </a>
+            </div>
+        </div>
+        
+        <!-- Indicador de scroll -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center animate-bounce">
+            <span class="text-xs text-gray-500 uppercase tracking-widest mb-2">Descubre más</span>
+            <i class="fa-solid fa-arrow-down text-gold"></i>
+        </div>
+    </section>
+
+    <!-- Servicios Section -->
+    <section id="servicios" class="py-24 bg-darker relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-20 reveal">
+                <h2 class="text-gold font-medium tracking-widest uppercase text-sm mb-2">Lo que hacemos</h2>
+                <h3 class="text-4xl md:text-5xl font-serif text-white">Servicios Exclusivos</h3>
+                <div class="w-24 h-1 bg-gold mx-auto mt-6 rounded-full opacity-50"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Servicio 1 -->
+                <div class="service-card bg-card p-10 rounded-2xl reveal relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 p-6 opacity-10 text-gold transform group-hover:scale-150 transition-transform duration-500">
+                        <i class="fa-solid fa-mask text-8xl"></i>
+                    </div>
+                    <div class="w-14 h-14 rounded-full bg-dark flex items-center justify-center border border-gold mb-6 relative z-10">
+                        <i class="fa-solid fa-sparkles text-gold text-xl"></i>
+                    </div>
+                    <h4 class="text-2xl font-serif text-white mb-4 relative z-10">Asesoría de Imagen</h4>
+                    <p class="text-gray-400 font-light leading-relaxed relative z-10">
+                        Definimos y pulimos tu estética personal y artística. Creamos un concepto visual coherente que refleje tu identidad y resuene con tu audiencia objetivo.
+                    </p>
+                    <ul class="mt-6 space-y-2 text-sm text-gray-500 relative z-10">
+                        <li><i class="fa-solid fa-check text-gold mr-2"></i> Identidad Visual</li>
+                        <li><i class="fa-solid fa-check text-gold mr-2"></i> Estilismo y Fotografía</li>
+                        <li><i class="fa-solid fa-check text-gold mr-2"></i> Expresión Corporal</li>
+                    </ul>
+                </div>
+
+                <!-- Servicio 2 -->
+                <div class="service-card bg-card p-10 rounded-2xl reveal relative overflow-hidden group" style="transition-delay: 100ms;">
+                    <div class="absolute top-0 right-0 p-6 opacity-10 text-gold transform group-hover:scale-150 transition-transform duration-500">
+                        <i class="fa-brands fa-instagram text-8xl"></i>
+                    </div>
+                    <div class="w-14 h-14 rounded-full bg-dark flex items-center justify-center border border-gold mb-6 relative z-10">
+                        <i class="fa-solid fa-hashtag text-gold text-xl"></i>
+                    </div>
+                    <h4 class="text-2xl font-serif text-white mb-4 relative z-10">Redes Sociales</h4>
+                    <p class="text-gray-400 font-light leading-relaxed relative z-10">
+                        Estrategias de contenido orgánico para conectar con tus seguidores. Gestionamos tu presencia online para que tú solo te preocupes por crear.
+                    </p>
+                    <ul class="mt-6 space-y-2 text-sm text-gray-500 relative z-10">
+                        <li><i class="fa-solid fa-check text-gold mr-2"></i> Planificación de Contenido</li>
+                        <li><i class="fa-solid fa-check text-gold mr-2"></i> Copywriting Artístico</li>
+                        <li><i class="fa-solid fa-check text-gold mr-2"></i> Crecimiento de Comunidad</li>
+                    </ul>
+                </div>
+
+                <!-- Servicio 3 -->
+                <div class="service-card bg-card p-10 rounded-2xl reveal relative overflow-hidden group" style="transition-delay: 200ms;">
+                    <div class="absolute top-0 right-0 p-6 opacity-10 text-gold transform group-hover:scale-150 transition-transform duration-500">
+                        <i class="fa-solid fa-laptop-code text-8xl"></i>
+                    </div>
+                    <div class="w-14 h-14 rounded-full bg-dark flex items-center justify-center border border-gold mb-6 relative z-10">
+                        <i class="fa-solid fa-globe text-gold text-xl"></i>
+                    </div>
+                    <h4 class="text-2xl font-serif text-white mb-4 relative z-10">Portafolios Web</h4>
+                    <p class="text-gray-400 font-light leading-relaxed relative z-10">
+                        Diseñamos experiencias digitales inmersivas. Tu portafolio web será tu galería personal en el mundo digital, optimizado y elegante.
+                    </p>
+                    <ul class="mt-6 space-y-2 text-sm text-gray-500 relative z-10">
+                        <li><i class="fa-solid fa-check text-gold mr-2"></i> Diseño UI/UX Premium</li>
+                        <li><i class="fa-solid fa-check text-gold mr-2"></i> Galerías Interactivas</li>
+                        <li><i class="fa-solid fa-check text-gold mr-2"></i> Optimización SEO</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Nosotros Section -->
+    <section id="nosotros" class="py-24 bg-dark relative overflow-hidden">
+        <div class="absolute -left-[20%] top-1/2 transform -translate-y-1/2 w-96 h-96 bg-gold rounded-full mix-blend-multiply filter blur-[150px] opacity-10"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row items-center gap-16">
+                <div class="w-full lg:w-1/2 reveal">
+                    <div class="relative">
+                        <!-- Marco decorativo simulando un lienzo/foto -->
+                        <div class="absolute inset-0 border-2 border-gold transform translate-x-6 translate-y-6 rounded-lg opacity-50"></div>
+                        <img src="https://images.unsplash.com/photo-1543857778-c4a1a3e0b2eb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Artista en estudio" class="relative z-10 w-full h-auto object-cover rounded-lg shadow-2xl grayscale hover:grayscale-0 transition-all duration-700">
+                    </div>
+                </div>
+                
+                <div class="w-full lg:w-1/2 reveal text-left">
+                    <h2 class="text-gold font-medium tracking-widest uppercase text-sm mb-2">Filosofía</h2>
+                    <h3 class="text-4xl md:text-5xl font-serif text-white mb-6">Tu arte merece ser <span class="italic text-gray-300">visto</span> y <span class="italic text-gray-300">sentido</span>.</h3>
+                    <p class="text-gray-400 font-light text-lg mb-6 leading-relaxed">
+                        En AURA entendemos que ser artista va más allá de la creación. Se trata de cómo te percibe el mundo. Nuestra agencia nació con un propósito claro: dotar a los creadores de las herramientas visuales y digitales para destacar en un mercado saturado.
+                    </p>
+                    <p class="text-gray-400 font-light text-lg mb-10 leading-relaxed">
+                        No imponemos modas; descubrimos tu aura y la amplificamos a través de una imagen impecable, redes sociales cautivadoras y portafolios web que hablan por sí solos.
+                    </p>
+                    
+                    <div class="grid grid-cols-2 gap-8">
+                        <div>
+                            <p class="text-4xl font-serif text-gold mb-1">50+</p>
+                            <p class="text-sm text-gray-500 uppercase tracking-wider">Artistas Impulsados</p>
+                        </div>
+                        <div>
+                            <p class="text-4xl font-serif text-gold mb-1">100%</p>
+                            <p class="text-sm text-gray-500 uppercase tracking-wider">Diseño a Medida</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contacto Section -->
+    <section id="contacto" class="py-24 bg-darker border-t border-gray-900 relative">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16 reveal">
+                <h3 class="text-4xl md:text-5xl font-serif text-white mb-4">Eleva tu presencia.</h3>
+                <p class="text-xl text-gray-400 font-light">Comencemos a construir tu legado digital hoy mismo.</p>
+            </div>
+
+            <div class="bg-card p-8 md:p-12 rounded-3xl border border-gray-800 shadow-2xl reveal">
+                <form onsubmit="event.preventDefault(); alert('¡Gracias por tu mensaje! En un entorno de producción, esto enviará tus datos.');" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="nombre" class="block text-sm font-medium text-gray-400 mb-2">Nombre / Nombre Artístico</label>
+                            <input type="text" id="nombre" class="w-full bg-dark border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold transition-colors" placeholder="Tu nombre" required>
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-400 mb-2">Correo Electrónico</label>
+                            <input type="email" id="email" class="w-full bg-dark border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold transition-colors" placeholder="tu@correo.com" required>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label for="disciplina" class="block text-sm font-medium text-gray-400 mb-2">Disciplina Artística</label>
+                        <select id="disciplina" class="w-full bg-dark border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold transition-colors appearance-none">
+                            <option value="">Selecciona tu área...</option>
+                            <option value="musica">Música / Producción</option>
+                            <option value="artes_visuales">Artes Visuales / Pintura</option>
+                            <option value="fotografia">Fotografía / Cine</option>
+                            <option value="actuacion">Actuación / Teatro</option>
+                            <option value="otro">Otro</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="mensaje" class="block text-sm font-medium text-gray-400 mb-2">Cuéntanos sobre tu visión</label>
+                        <textarea id="mensaje" rows="4" class="w-full bg-dark border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold transition-colors" placeholder="¿Qué buscas transmitir al mundo?" required></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full bg-gold text-dark font-bold text-lg py-4 rounded-lg hover:bg-gold-light hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all duration-300">
+                        Enviar Mensaje <i class="fa-solid fa-paper-plane ml-2"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black py-12 border-t border-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-6 md:mb-0 text-center md:text-left">
+                <span class="font-serif text-2xl font-bold tracking-wider text-white">
+                    AU<span class="text-gold">R</span>A.
+                </span>
+                <p class="text-gray-500 text-sm mt-2">Agencia de Imagen y Digital para Artistas</p>
+            </div>
+            
+            <div class="flex space-x-6 mb-6 md:mb-0">
+                <a href="#" class="text-gray-500 hover:text-gold transition-colors">
+                    <i class="fa-brands fa-instagram text-xl"></i>
+                </a>
+                <a href="#" class="text-gray-500 hover:text-gold transition-colors">
+                    <i class="fa-brands fa-tiktok text-xl"></i>
+                </a>
+                <a href="#" class="text-gray-500 hover:text-gold transition-colors">
+                    <i class="fa-brands fa-behance text-xl"></i>
+                </a>
+            </div>
+            
+            <div class="text-gray-600 text-sm">
+                &copy; 2026 Aura Agency. Todos los derechos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts para interacciones -->
+    <script>
+        // Menú Móvil
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        // Cerrar menú móvil al hacer click en un enlace
+        const mobileLinks = menu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+            });
+        });
+
+        // Cambiar estilo del Navbar al hacer scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-lg');
+                navbar.style.background = 'rgba(5, 5, 5, 0.95)';
+            } else {
+                navbar.classList.remove('shadow-lg');
+                navbar.style.background = 'rgba(10, 10, 10, 0.8)';
+            }
+        });
+
+        // Animación de elementos al hacer scroll (Scroll Reveal)
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        // Trigger inicial por si los elementos ya están en pantalla
+        reveal();
+    </script>
+</body>
+</html>
